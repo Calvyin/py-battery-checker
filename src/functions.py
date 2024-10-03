@@ -1,5 +1,4 @@
 import psutil as ps
-import plyer as pl
 import time
 import tkinter as tk
 
@@ -21,13 +20,13 @@ def bat_check():
             root = tk.Tk()
             root.overrideredirect(True)
             root.attributes("-topmost", True)
-            label = tk.Label(root, text = "Your battery has reached 60%", font = ("Arial", 60))
-            label.pack(expand = True)
-            root.geometry("300x100+1000+100")
-            root.after(10000, root.destroy)
+            label = tk.Label(root, text="Your battery has reached 60%", font=("Arial", 15))
+            label.pack(expand=True)
+            root.geometry("300x100+1350+900")
+            root.after(5000, root.destroy)
             root.mainloop()
 
-            '''pl.notification.notify(title='Battery Status', message='Your laptop battery has reached 60%\nUnplug your '
+            '''pl.notification.notify(title='Battery Status', message='Your laptop battery has reached 60%\nUnplug your'
                                                                    'charger', app_name='Battery checker', app_icon='',
                                    timeout=10, ticker='', toast=False, hints={})'''
             charged = True
@@ -35,3 +34,14 @@ def bat_check():
             pass
     if charged is True:
         exit()
+
+
+def test():
+    root = tk.Tk()
+    root.overrideredirect(True)
+    root.attributes("-topmost", True)
+    label = tk.Label(root, text="Your battery has reached 60%", font=("Arial", 15))
+    label.pack(expand=True)
+    root.geometry("300x100+1350+900")
+    root.after(5000, root.destroy)
+    root.mainloop()
