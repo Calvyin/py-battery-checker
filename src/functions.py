@@ -1,47 +1,52 @@
 import psutil as ps
 import time
-import tkinter as tk
+from win10toast import ToastNotifier
+import pystray
+from PIL import Image, ImageDraw
+
+toast = ToastNotifier()
 
 
 def print_bat_life():
-    bat = ps.sensors_battery()  # functions returns bat.percent, bat.secsleft, bat.power_plugged
+    bat = ps.sensors_battery()  # function returns bat.percent, bat.secsleft, bat.power_plugged
     mm, ss = divmod(bat.secsleft, 60)
     hh, mm = divmod(mm, 60)
     print(f"Battery percentage: {bat.percent} Battery life: {hh}:{mm}")
 
 
-def bat_check():
-    bat = ps.sensors_battery()  # functions returns bat.percent, bat.secsleft, bat.power_plugged
-    starttime = time.monotonic()
-    charged = False
-    while charged is False:
-        time.sleep(120.0 - ((time.monotonic() - starttime) % 120.0))
-        if bat.percent == 60:
-            root = tk.Tk()
-            root.overrideredirect(True)
-            root.attributes("-topmost", True)
-            label = tk.Label(root, text="Your battery has reached 60%", font=("Arial", 15))
-            label.pack(expand=True)
-            root.geometry("300x100+1350+900")
-            root.after(5000, root.destroy)
-            root.mainloop()
-
-            '''pl.notification.notify(title='Battery Status', message='Your laptop battery has reached 60%\nUnplug your'
-                                                                   'charger', app_name='Battery checker', app_icon='',
-                                   timeout=10, ticker='', toast=False, hints={})'''
-            charged = True
-        else:
-            pass
-    if charged is True:
-        exit()
+def bat_check(enabled):
+    while enabled:
+        global notified
+        global charged
+        bat = ps.sensors_battery()  # function returns bat.percent, bat.secsleft, bat.power_plugged
+        charged = False
+        while charged is False:
+            if bat.percent == 60:
+                toast.show_toast(
+                    "Warning",
+                    "Battery has reached 60%",
+                    duration=20,
+                    icon_path="icon.ico",
+                    threaded=True,
+                )
+                notified = True
+                charged = True
+            else:
+                pass
+        if (notified is True) and (bat.power_plugged is False) and (bat.percent < 60):
+            notified = False
+            charged = False
 
 
-def test():
-    root = tk.Tk()
-    root.overrideredirect(True)
-    root.attributes("-topmost", True)
-    label = tk.Label(root, text="Your battery has reached 60%", font=("Arial", 15))
-    label.pack(expand=True)
-    root.geometry("300x100+1350+900")
-    root.after(5000, root.destroy)
-    root.mainloop()
+def create_image(width, height, color1, color2):
+    # Generate an image and draw a pattern
+    image = Image.new('RGB', (width, height), color1)
+    dc = ImageDraw.Draw(image)
+    dc.rectangle(
+        (width // 2, 0, width, height // 2),
+        fill=color2)
+    dc.rectangle(
+        (0, height // 2, width // 2, height),
+        fill=color2)
+
+    return image
