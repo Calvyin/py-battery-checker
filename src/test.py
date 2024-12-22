@@ -1,52 +1,37 @@
-import pystray
-from PIL import Image, ImageDraw
+from pystray import Icon, MenuItem, Menu
+from PIL import Image
 
-def create_high_res_cat_icon():
-    # Define the size of the icon
-    width, height = 128, 128
+is_toggled = True
 
-    # Create a blank image
-    image = Image.new('RGB', (width, height), 'white')
-    draw = ImageDraw.Draw(image)
 
-    # Define the pixelated cat design (16x16 grid for higher resolution)
-    # Each tuple represents a row in the grid; 0 = background, 1 = cat
-    cat_design = [
-        (0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0),
-        (0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
-        (0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0),
-        (0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-        (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0),
-        (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0),
-        (0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-        (0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
-        (0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
-        (0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0),
-        (0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0),
-        (0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0),
-    ]
+def toggle(icon, item):
+    global is_toggled
+    is_toggled = not is_toggled
+    icon.menu = Menu(
+        MenuItem("Enabled" if is_toggled else "Disabled", toggle),
+        MenuItem("Quit", on_quit)
+    )
+    print(is_toggled)
+    icon.update_menu()
 
-    # Set pixel size for scaling the grid into the icon size
-    pixel_size = width // 16
 
-    # Draw the cat design
-    for row_index, row in enumerate(cat_design):
-        for col_index, cell in enumerate(row):
-            if cell == 1:  # Draw a filled square for the cat
-                x0 = col_index * pixel_size
-                y0 = row_index * pixel_size
-                x1 = x0 + pixel_size
-                y1 = y0 + pixel_size
-                draw.rectangle([x0, y0, x1, y1], fill='black')
+def on_quit(icon, item):
+    icon.stop()
 
-    return image
 
-# Create the tray icon using the higher resolution cat image
-icon = pystray.Icon(
-    'High Res Pixel Cat',
-    icon=create_high_res_cat_icon(),
-    title='High-Resolution Pixel Cat'
+def create_image(file_path):
+    return Image.open(file_path)
+
+
+menu = Menu(
+    MenuItem("Enabled", toggle),
+    MenuItem("Quit", on_quit)
 )
 
-# Run the icon in the system tray
+# Set up the icon
+icon = Icon("Battery Checker")
+icon.menu = menu
+icon.icon = create_image(r"C:\Users\cyn_m\PycharmProjects\refactored-octo-system\src\battery.png")
+
+# Run the icon
 icon.run()
