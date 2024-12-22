@@ -3,13 +3,11 @@ import pystrayfunc as pf
 import time
 from pystray import Icon, MenuItem, Menu
 
-module_bat = True
 starttime = time.monotonic()
-while module_bat:
-    bf.bat_check(module_bat)
-    time.sleep(120.0 - ((time.monotonic() - starttime) % 120.0))
-if module_bat is False:
-    bf.bat_check(module_bat)
+
+while pf.is_toggled:
+    bf.battery_check(pf.is_toggled)
+    time.sleep(10.0 - ((time.monotonic() - starttime) % 10.0))
 
 
 menu = Menu(
