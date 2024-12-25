@@ -5,10 +5,6 @@ from pystray import Icon, MenuItem, Menu
 
 starttime = time.monotonic()
 
-while pf.is_toggled:
-    bf.battery_check(pf.is_toggled)
-    time.sleep(10.0 - ((time.monotonic() - starttime) % 10.0))
-
 
 menu = Menu(
     MenuItem("Enabled", pf.toggle),
@@ -19,3 +15,10 @@ menu = Menu(
 icon = Icon("Battery Checker")
 icon.menu = menu
 icon.icon = pf.create_image(r"C:\Users\cyn_m\PycharmProjects\refactored-octo-system\src\battery.png")
+
+while pf.is_toggled:
+    bf.battery_check(pf.is_toggled)
+    time.sleep(10.0 - ((time.monotonic() - starttime) % 10.0))
+
+
+

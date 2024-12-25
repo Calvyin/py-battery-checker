@@ -2,7 +2,7 @@ from pystray import MenuItem, Menu
 from PIL import Image
 import sys
 
-global is_toggled
+is_toggled = True
 
 
 def toggle(icon, item):
