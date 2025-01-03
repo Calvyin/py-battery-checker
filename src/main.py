@@ -16,9 +16,11 @@ icon = Icon("Battery Checker")
 icon.menu = menu
 icon.icon = pf.create_image(r"C:\Users\cyn_m\PycharmProjects\refactored-octo-system\src\battery.png")
 
+pf.notified = False
+pf.charged = False
+pf.run = False
+pf.is_toggled = True
+
 while pf.is_toggled:
     bf.battery_check(pf.is_toggled)
-    time.sleep(10.0 - ((time.monotonic() - starttime) % 10.0))
-
-
-
+    time.sleep(5.0 - ((time.monotonic() - starttime) % 5.0))

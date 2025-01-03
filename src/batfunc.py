@@ -14,30 +14,6 @@ def print_bat_life():
     print(f"Battery percentage: {bat.percent} Battery life: {hh}:{mm}")
 
 
-'''def bat_check(enabled):
-    if enabled:
-        global notified
-        global charged
-        charged = False
-        if charged is False:
-            if bat.percent == 60:
-                toast.show_toast(
-                    "Warning",
-                    "Battery has reached 60%",
-                    duration=40,
-                    icon_path="icon.ico",
-                    threaded=True,
-                )
-                notified = True
-                charged = True
-            else:
-                pass
-        if (bat.power_plugged is False) and (bat.percent < 60):
-            notified = False
-            charged = False
-'''
-
-
 def battery_check(enabled):
     global notified, charged, run
     bat = ps.sensors_battery()
@@ -47,7 +23,7 @@ def battery_check(enabled):
             charged = False
             run = True
 
-        if not notified and bat.percent >= 58:
+        if not notified and bat.percent >= 57 and bat.power_plugged:
             toast.show_toast(
                 "Warning",
                 "Battery has reached 60%",
@@ -58,6 +34,6 @@ def battery_check(enabled):
             notified = True
             charged = True
 
-        elif charged and notified and bat.percent < 60:
+        elif charged and notified and bat.percent < 55:
             notified = False
             charged = False
