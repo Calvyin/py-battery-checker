@@ -23,17 +23,17 @@ def battery_check(enabled):
             charged = False
             run = True
 
-        if not notified and bat.percent >= 57 and bat.power_plugged:
+        if not notified and bat.percent >= 35 and bat.power_plugged:
             toast.show_toast(
                 "Warning",
                 "Battery has reached 60%",
-                duration=20,
+                duration=10,
                 icon_path="battery.ico",
                 threaded=True,
             )
             notified = True
             charged = True
 
-        elif charged and notified and bat.percent < 55:
+        elif charged and notified and bat.percent < 35:
             notified = False
             charged = False
