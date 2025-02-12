@@ -1,6 +1,6 @@
 from pystray import MenuItem, Menu
 from PIL import Image
-import sys
+import os
 
 is_toggled = True
 
@@ -17,7 +17,7 @@ def toggle(icon, item):
 
 def on_quit(icon, item):
     icon.stop()
-    sys.exit()
+    os._exit(0)
 
 
 def create_image(file_path):

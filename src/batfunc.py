@@ -1,8 +1,10 @@
 import psutil as ps
 from win10toast import ToastNotifier
+import os
 
 global notified, charged
 run = False
+icon_path = os.path.abspath("battery.ico")
 
 toast = ToastNotifier()
 bat = ps.sensors_battery()  # function returns bat.percent, bat.secsleft, bat.power_plugged
@@ -23,17 +25,17 @@ def battery_check(enabled):
             charged = False
             run = True
 
-        if not notified and bat.percent >= 35 and bat.power_plugged:
+        if not notified and bat.percent >= 56 and bat.power_plugged:
             toast.show_toast(
                 "Warning",
                 "Battery has reached 60%",
                 duration=10,
-                icon_path="battery.ico",
+                icon_path=icon_path,
                 threaded=True,
             )
             notified = True
             charged = True
 
-        elif charged and notified and bat.percent < 35:
+        elif charged and notified and bat.percent < 56:
             notified = False
             charged = False

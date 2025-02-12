@@ -24,4 +24,4 @@ pf.is_toggled = True
 
 while pf.is_toggled:
     bf.battery_check(pf.is_toggled)
-    time.sleep(12.0 - ((time.monotonic() - starttime) % 12.0))
+    time.sleep(120.0 - ((time.monotonic() - starttime) % 120.0))
