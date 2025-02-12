@@ -15,7 +15,6 @@ def toggle(icon, item):
         MenuItem("Quit", on_quit)
     )
     icon.update_menu()
-    print(is_toggled)
 
 
 def on_quit(icon, item):
@@ -29,6 +28,5 @@ def create_image(file_path):
 
 def while_func():
     while is_toggled:
-        print("Checking")
         bf.battery_check(is_toggled)
         time.sleep(12.0 - ((time.monotonic() - starttime) % 12.0))

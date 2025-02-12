@@ -10,12 +10,6 @@ toast = ToastNotifier()
 bat = ps.sensors_battery()  # function returns bat.percent, bat.secsleft, bat.power_plugged
 
 
-def print_bat_life():
-    mm, ss = divmod(bat.secsleft, 60)
-    hh, mm = divmod(mm, 60)
-    print(f"Battery percentage: {bat.percent} Battery life: {hh}:{mm}")
-
-
 def battery_check(enabled):
     global notified, charged, run
     bat = ps.sensors_battery()
