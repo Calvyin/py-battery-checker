@@ -1,7 +1,9 @@
 from pystray import MenuItem, Menu
+import batfunc as bf
 from PIL import Image
-import os
+import os, time
 
+starttime = time.monotonic()
 is_toggled = True
 
 
@@ -13,6 +15,7 @@ def toggle(icon, item):
         MenuItem("Quit", on_quit)
     )
     icon.update_menu()
+    print(is_toggled)
 
 
 def on_quit(icon, item):
@@ -22,3 +25,10 @@ def on_quit(icon, item):
 
 def create_image(file_path):
     return Image.open(file_path)
+
+
+def while_func():
+    while is_toggled:
+        print("Checking")
+        bf.battery_check(is_toggled)
+        time.sleep(12.0 - ((time.monotonic() - starttime) % 12.0))

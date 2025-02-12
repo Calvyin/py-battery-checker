@@ -3,7 +3,6 @@ import pystrayfunc as pf
 import time
 from pystray import Icon, MenuItem, Menu
 
-starttime = time.monotonic()
 
 
 menu = Menu(
@@ -22,6 +21,5 @@ pf.charged = False
 pf.run = False
 pf.is_toggled = True
 
-while pf.is_toggled:
-    bf.battery_check(pf.is_toggled)
-    time.sleep(120.0 - ((time.monotonic() - starttime) % 120.0))
+while True:
+    pf.while_func()
